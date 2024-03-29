@@ -1,0 +1,481 @@
+{
+	"info": {
+		"_postman_id": "3fd195d3-0938-4df9-88ed-30caca759480",
+		"name": "Anaplan Bulk API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25502468"
+	},
+	"item": [
+		{
+			"name": "1. Authentication",
+			"item": [
+				{
+					"name": "1.1. Anaplan Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"token\", jsonData.tokenInfo.tokenValue);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{email}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://auth.anaplan.com/token/authenticate",
+							"protocol": "https",
+							"host": [
+								"auth",
+								"anaplan",
+								"com"
+							],
+							"path": [
+								"token",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Inbound Requests",
+			"item": [
+				{
+					"name": "2.1. Find Import Sources Available",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "AnaplanAuthToken {{wipro_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.anaplan.com/2/0/workspaces/{{workspace_id}}/models/{{model_id}}/files",
+							"protocol": "https",
+							"host": [
+								"api",
+								"anaplan",
+								"com"
+							],
+							"path": [
+								"2",
+								"0",
+								"workspaces",
+								"{{workspace_id}}",
+								"models",
+								"{{model_id}}",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.2. Upload file",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "AnaplanAuthToken {{wipro_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/octet-stream",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": ""
+							}
+						},
+						"url": {
+							"raw": "https://api.anaplan.com/2/0/workspaces/{{workspace_id}}/models/{{model_id}}/files/113000000015",
+							"protocol": "https",
+							"host": [
+								"api",
+								"anaplan",
+								"com"
+							],
+							"path": [
+								"2",
+								"0",
+								"workspaces",
+								"{{workspace_id}}",
+								"models",
+								"{{model_id}}",
+								"files",
+								"113000000015"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.3. Find Imports Available",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "AnaplanAuthToken {{wipro_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.anaplan.com/2/0/workspaces/{{workspace_id}}/models/{{model_id}}/imports",
+							"protocol": "https",
+							"host": [
+								"api",
+								"anaplan",
+								"com"
+							],
+							"path": [
+								"2",
+								"0",
+								"workspaces",
+								"{{workspace_id}}",
+								"models",
+								"{{model_id}}",
+								"imports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.4. Run Import Action",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "AnaplanAuthToken {{wipro_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"localeName\": \"en_US\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.anaplan.com/2/0/workspaces/{{workspace_id}}/models/{{model_id}}/imports/112000000016/tasks",
+							"protocol": "https",
+							"host": [
+								"api",
+								"anaplan",
+								"com"
+							],
+							"path": [
+								"2",
+								"0",
+								"workspaces",
+								"{{workspace_id}}",
+								"models",
+								"{{model_id}}",
+								"imports",
+								"112000000016",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.5. Monitor Import Action",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "AnaplanAuthToken {{wipro_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.anaplan.com/2/0/workspaces/{{workspace_id}}/models/{{model_id}}/imports/112000000016/tasks/4942D958A0884F0A9B730DB3BAB245F4",
+							"protocol": "https",
+							"host": [
+								"api",
+								"anaplan",
+								"com"
+							],
+							"path": [
+								"2",
+								"0",
+								"workspaces",
+								"{{workspace_id}}",
+								"models",
+								"{{model_id}}",
+								"imports",
+								"112000000016",
+								"tasks",
+								"4942D958A0884F0A9B730DB3BAB245F4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Outbound Requests",
+			"item": [
+				{
+					"name": "3.1. Find List of export files available",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "AnaplanAuthToken {{wipro_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.anaplan.com/2/0/workspaces/{{workspace_id}}/models/{{model_id}}/files",
+							"protocol": "https",
+							"host": [
+								"api",
+								"anaplan",
+								"com"
+							],
+							"path": [
+								"2",
+								"0",
+								"workspaces",
+								"{{workspace_id}}",
+								"models",
+								"{{model_id}}",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.2. List of export actions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "AnaplanAuthToken {{wipro_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.anaplan.com/2/0/workspaces/{{workspace_id}}/models/{{model_id}}/exports",
+							"protocol": "https",
+							"host": [
+								"api",
+								"anaplan",
+								"com"
+							],
+							"path": [
+								"2",
+								"0",
+								"workspaces",
+								"{{workspace_id}}",
+								"models",
+								"{{model_id}}",
+								"exports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.3. Starting - Export Action",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "AnaplanAuthToken {{wipro_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"localeName\": \"en_US\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.anaplan.com/2/0/workspaces/{{workspace_id}}/models/{{model_id}}/exports/116000000008/tasks",
+							"protocol": "https",
+							"host": [
+								"api",
+								"anaplan",
+								"com"
+							],
+							"path": [
+								"2",
+								"0",
+								"workspaces",
+								"{{workspace_id}}",
+								"models",
+								"{{model_id}}",
+								"exports",
+								"116000000008",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.4. Monitor - Export Action",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "AnaplanAuthToken {{wipro_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.anaplan.com/2/0/workspaces/{{workspace_id}}/models/{{model_id}}/exports/116000000008/tasks/6A3F368A2A5A483FBE0E5BE5654854FC",
+							"protocol": "https",
+							"host": [
+								"api",
+								"anaplan",
+								"com"
+							],
+							"path": [
+								"2",
+								"0",
+								"workspaces",
+								"{{workspace_id}}",
+								"models",
+								"{{model_id}}",
+								"exports",
+								"116000000008",
+								"tasks",
+								"6A3F368A2A5A483FBE0E5BE5654854FC"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.5. Retrieve the file from Anaplan",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "AnaplanAuthToken {{wipro_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.anaplan.com/2/0/workspaces/{{workspace_id}}/models/{{model_id}}/files/116000000008",
+							"protocol": "https",
+							"host": [
+								"api",
+								"anaplan",
+								"com"
+							],
+							"path": [
+								"2",
+								"0",
+								"workspaces",
+								"{{workspace_id}}",
+								"models",
+								"{{model_id}}",
+								"files",
+								"116000000008"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "email",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "workspace_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "model_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
